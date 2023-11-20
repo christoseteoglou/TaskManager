@@ -11,23 +11,23 @@ import SwiftUI
 class TaskViewModel: ObservableObject {
     
     @Published var storedTasks: [Task] = [
-    
-        Task(taskTitle: "Meeting", taskDescription: "Discuss team task for the day", taskData: 
-                .init(timeIntervalSince1970: 1700838915)),
-        Task(taskTitle: "Icon set", taskDescription: "Edit icons for team task for next week", taskData:
+        
+        Task(taskTitle: "Meeting", taskDescription: "Discuss team task for the day", taskDate:
+                .init(timeIntervalSince1970: 1700501608)),
+        Task(taskTitle: "Icon set", taskDescription: "Edit icons for team task for next week", taskDate:
                 .init(timeIntervalSince1970: 1700666212)),
-        Task(taskTitle: "Prototype", taskDescription: "Make and send prototype", taskData:
+        Task(taskTitle: "Prototype", taskDescription: "Make and send prototype", taskDate:
+                .init(timeIntervalSince1970: 1700508322)),
+        Task(taskTitle: "Check assets", taskDescription: "Start checking the assets", taskDate:
                 .init(timeIntervalSince1970: 1700838915)),
-        Task(taskTitle: "Check assets", taskDescription: "Start checking the assets", taskData:
-                .init(timeIntervalSince1970: 1700499875)),
-        Task(taskTitle: "Team party", taskDescription: "Have a great party with the team", taskData:
+        Task(taskTitle: "Team party", taskDescription: "Have a great party with the team", taskDate:
                 .init(timeIntervalSince1970: 1700666212)),
-        Task(taskTitle: "Client Meeting", taskDescription: "Explain project to client", taskData:
+        Task(taskTitle: "Client Meeting", taskDescription: "Explain project to client", taskDate:
                 .init(timeIntervalSince1970: 1700838915)),
-        Task(taskTitle: "Next Project", taskDescription: "Discuss next project with team", taskData:
+        Task(taskTitle: "Next Project", taskDescription: "Discuss next project with team", taskDate:
                 .init(timeIntervalSince1970: 1700579812)),
-        Task(taskTitle: "App Proposal", taskDescription: "Meet client for next App proposal", taskData:
-                .init(timeIntervalSince1970: 1700838915)),
+        Task(taskTitle: "App Proposal", taskDescription: "Meet client for next App proposal", taskDate:
+                .init(timeIntervalSince1970: 1700511922)),
         
     ]
     
@@ -51,8 +51,11 @@ class TaskViewModel: ObservableObject {
             
             let calendar = Calendar.current
             let filtered = self.storedTasks.filter {
-                return calendar.isDate($0.taskData, inSameDayAs: self.currentDay)
+                return calendar.isDate($0.taskDate, inSameDayAs: self.currentDay)
             }
+                .sorted{ task1, task2 in
+                    return task2.taskDate < task1.taskDate
+                }
             
             DispatchQueue.main.async {
                 withAnimation {
